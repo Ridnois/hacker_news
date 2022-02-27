@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, ForwardedRef } from "r
 import { Dropdown, TopicBox } from '../components';
 import { usePosts } from "../hooks";
 import { PostCard } from "../components";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export interface IPost {
   author: string;
@@ -13,31 +14,16 @@ export interface IPost {
 export const AllPage = () => {
   const [ query, setQuery ] = useState<string>();
   const [ page, setPage ] = useState(0);
-  const { posts, loading, error } = usePosts(query, 0);
+  const { posts, loading, error, load } = usePosts(query, 0);
  
-  const observer = useRef<IntersectionObserver>();
-  const lastPostRef = useCallback(node => {
-    if (loading) return;
-    if (observer) {
-      (observer as any).current.disconnect();
-    }
-    observer.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting) {
-        console.log('visible')
-        setPage(p => p+1)
-      }
-    })
-
-    if (node) {
-      observer.current.observe(node);
-    }
-    console.log(node); 
-  }, [loading]); 
-  
+  const triggerChange = () => {
+    setPage((p) => p +1);
+  }
   const handleDropdown = (value: string) => {
     setQuery(value.toLowerCase());
     setPage(0);
   }
+  
   return (
     <div className="container">
       <Dropdown label="Select your news" callback={handleDropdown}>
@@ -61,21 +47,18 @@ export const AllPage = () => {
         </TopicBox>
       </Dropdown>
       <div className="posts">
+        <InfiniteScroll
+          dataLength={posts.length}
+          next={load}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
         {
-          posts.map((post: IPost, index: number) => {
-            if (posts.length === index+1) {
-              const Forwarded = React.forwardRef((ref: any, props: any) => {
-                return (<PostCard ref={ref} {...props}/>)
-              })
-              
-              return (<Forwarded key={index} ref={lastPostRef} {...post} />)
-            }
-            return (
-              <PostCard key={index} {...post} />
-            )
-          })
+          posts.map((post, index) => (
+            <PostCard {...post} key={index}/> 
+          ))
         }
-        {( loading && <p>Loading...</p>)}
+        </InfiniteScroll>
       </div>
     </div>
   )

@@ -25,10 +25,8 @@ export const usePosts = (query: string = '', page: number) => {
     }
     return false;
   }
-  
-  useEffect(() => setPosts([]), [query]);
 
-  useEffect(() => {
+  const load = () => {
     if (!query) return;
     setLoading(true);
     fetch(`https://hn.algolia.com/api/v1/search_by_date?query=${query}&page=${page}`)
@@ -44,11 +42,20 @@ export const usePosts = (query: string = '', page: number) => {
       setLoading(false);
       setError(error.message);
     })
+  }
+
+  useEffect(() => 
+    setPosts([]),
+  [query]);
+
+  useEffect(() => {
+    load();
   }, [query, page]);
   
   return {
     posts,
     loading,
     error,
+    load,
   }
 }
