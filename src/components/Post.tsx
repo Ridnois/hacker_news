@@ -9,9 +9,10 @@ export interface IPost {
 }
 
 export const PostCard: React.FunctionComponent<IPost & {ref?: any}> = (props: IPost) => {
+  
   return (
     <div className="post-card">
-      <div className="post-card__content">
+      <a className="post-card__content" href={props.story_url} target={"_blank"}>
         <div className="post-card__date date-checker">
           <img src="./iconmonstr-time-2.svg" className="iconmonstr-time-2"/>
           <p className="date-checker__legend">
@@ -21,9 +22,9 @@ export const PostCard: React.FunctionComponent<IPost & {ref?: any}> = (props: IP
         <h3 className="post-card__story-title">
           {props.story_title}
         </h3>
-      </div>
+      </a>
       <div className="post-card__favorite">
-        <img src="./iconmonstr-favorite-3.svg" className="iconmonstr-favorite-3"/>
+        <img src="./iconmonstr-favorite-2.svg" className="iconmonstr-favorite-2"/>
       </div>
     </div>
   )

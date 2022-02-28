@@ -1,5 +1,5 @@
-import React, { useState, Children, useEffect } from "react";
-
+import React, { useState, Children, useEffect, useRef } from "react";
+import { useElementSize } from '../hooks';
 export const DropdownHeader: React.FC<{onClick: any}> = (props) => {
   return (
     <div className="dropdown__header" onClick={props.onClick}>
@@ -13,9 +13,9 @@ interface IDropDownList {
   onSelected?: () => any;
 }
 
-export const DropDownList: React.FunctionComponent<IDropDownList> = (props) => {
+export const DropDownList: React.FunctionComponent<any> = (props) => {
   return (
-    <div className="dropdown__list">
+    <div className="dropdown__list" style={props.style}>
       {props.children}
     </div>
   )
@@ -33,8 +33,10 @@ export const Dropdown: React.FunctionComponent<{callback?: (value: string) => an
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(props.label);
   const { callback } = props;
-  const arrayChildren = Children.toArray(props.children) 
+  const arrayChildren = Children.toArray(props.children);
   
+  const parentRef = useRef<HTMLElement | any>();
+
   const toggle = () => {
     setOpen(!open)
   }
@@ -52,14 +54,13 @@ export const Dropdown: React.FunctionComponent<{callback?: (value: string) => an
   }, [selected, setSelected]) 
   
   return (
-    <div className="dropdown">
+    <div className="dropdown" ref={parentRef}>
       <DropdownHeader  onClick={toggle}>
         <h3 className="dropdown__text">{selected}</h3>
       </DropdownHeader>
       {
         open && (
-
-        <DropDownList>
+        <DropDownList style={{width: parentRef.current.offsetWidth}}>
           {
             Children.map(arrayChildren, (child, index) => {
               return (

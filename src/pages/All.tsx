@@ -13,17 +13,13 @@ export interface IPost {
 
 export const AllPage = () => {
   const [ query, setQuery ] = useState<string>();
-  const [ page, setPage ] = useState(0);
-  const { posts, loading, error, load } = usePosts(query, 0);
+  const { posts, page, pages, loading, error, load, clean } = usePosts(query);
  
-  const triggerChange = () => {
-    setPage((p) => p +1);
-  }
   const handleDropdown = (value: string) => {
+    clean();
     setQuery(value.toLowerCase());
-    setPage(0);
   }
-  
+
   return (
     <div className="container">
       <Dropdown label="Select your news" callback={handleDropdown}>
@@ -33,13 +29,13 @@ export const AllPage = () => {
             <h3 className="dropdown__text">Angular</h3>
           </div>
         </TopicBox>
-        <TopicBox value="React">
+        <TopicBox value="Reactjs">
           <div className="option-box">
             <img className="option-box__image" src="./image-140.png" />
             <h3 className="dropdown__text">React</h3>
           </div>
         </TopicBox>
-        <TopicBox value="Vue">
+        <TopicBox value="Vuejs">
           <div className="option-box">
             <img className="option-box__image" src="./image-141.png" />
             <h3 className="dropdown__text">Vue</h3>
@@ -50,7 +46,7 @@ export const AllPage = () => {
         <InfiniteScroll
           dataLength={posts.length}
           next={load}
-          hasMore={true}
+          hasMore={page < pages}
           loader={<h4>Loading...</h4>}
         >
         {
