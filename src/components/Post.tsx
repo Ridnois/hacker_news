@@ -1,50 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { timePassed } from '../utils';
-import { useLocalStorage } from '../hooks';
+
 export interface IPost {
   author: string;
   story_title: string;
   story_url: string;
   created_at: string;
-  story_id: string;
+  objectID: string;
+  onToggle: (...args: any[]) => any;
+  onFavorites?: boolean;
 }
 
-export const PostCard: React.FunctionComponent<IPost & {ref?: any}> = (props: IPost) => {
-  const [ onFavorites, setOnFavorites ] = useState(false);
-  const [ onStorage, setOnStorage ] = useState(false);
-  const [ favorites, setFavorites ] = useLocalStorage<IPost[]>("favorites", []);
-
+export const PostCard: React.FunctionComponent<IPost> = (props: IPost) => {
+  const [ onFavorites, setOnFavorites ] = useState(props.onFavorites);
+  const { onToggle } = props; 
+  
   const toggleFavorites = () => {
-    setOnFavorites((fav: boolean) => !fav);
+    setOnFavorites((fav: any) => !fav);
   }
- 
+  
   useEffect(() => {
-    console.log("on favorites changed")
-    if (!onFavorites && onStorage) {
-      setFavorites((old) => [...old.filter((post: IPost) => post.story_id !== props.story_id)])
-      setOnStorage(false);
-      return;
-    }
-    if (onFavorites && !onStorage) {
-      setFavorites((old) => [...old, props])
-      setOnStorage(true);
-      return;
-    }
+    //console.log("Toggled ->", onFavorites)
+    onToggle(onFavorites, {...props})
+
   }, [onFavorites, setOnFavorites])
-
-  useEffect(()=> {
-    if(onStorage) {
-      setOnFavorites(true)
-    }
-  }, [onStorage])
-
-  useEffect(() => {
-    const found = favorites.find((post: IPost) => props.story_id === post.story_id);
-    if (found) {
-      setOnStorage(true);
-    }
-  }, []) 
-
+ 
   return (
     <div className="post-card">
       <a className="post-card__content" href={props.story_url} target={"_blank"}>

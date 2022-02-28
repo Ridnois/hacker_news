@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback, ForwardedRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown, TopicBox } from '../components';
 import { usePosts, useLocalStorage } from "../hooks";
 import { PostCard } from "../components";
-
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export interface IPost {
@@ -10,24 +9,45 @@ export interface IPost {
   story_title: string;
   story_url: string;
   created_at: string;
+  objectID: string;
+  onToggle: (...args: any[]) => any;
 }
 
 export const AllPage = () => {
-  const [ selection, setSelection ] = useLocalStorage<string>("query_selection", "Select your news") 
+  const [ selection, setSelection ] = useLocalStorage<string>("query_selection", "Select your news");
   const [ query, setQuery ] = useState<string>();
   const { posts, page, pages, loading, error, load, clean } = usePosts(query);
+  const [ favorites, setFavorites] = useLocalStorage<{[key: string]: Partial<IPost>}[]>("favorites", []) 
   
   const handleDropdown = (value: string) => {
     clean();
     setQuery(value.toLowerCase());
-    setSelection(value.toLowerCase());
+    setSelection(value);
+  }
+  
+  const elementOnStorage = (props: any) => {
+    const item = favorites.find((element) => element[props.objectID])
+    if(item) {
+      return true;
+    }
+    return false;
+  }
+
+  const logToggle = (...args: any[]) => {
+    const [ onFavorites, props ] = args;
+    const item = elementOnStorage(props) 
+    if(!item && onFavorites) {
+      setFavorites((favs) => [...favs, {[props.objectID]: props}])
+    } if(item && !onFavorites) {
+      setFavorites((favs) => favs.filter(fav => !fav[props.objectID]))
+    }
   }
   
   useEffect(() => {
-    if(selection) {
-      handleDropdown(selection)
+    if(selection !== "Select your news") {
+      setQuery(selection)
     }
-  },[query])
+  }, [])
 
   return (
     <div className="container">
@@ -60,7 +80,7 @@ export const AllPage = () => {
         >
         {
           posts.map((post, index) => (
-            <PostCard {...post} key={index}/> 
+            <PostCard onToggle={logToggle} onFavorites={elementOnStorage(post)} {...post} key={index}/> 
           ))
         }
         </InfiniteScroll>

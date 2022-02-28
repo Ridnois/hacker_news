@@ -9,6 +9,7 @@ export const DropdownHeader: React.FC<IClickable> = (props) => {
   return (
     <div className="dropdown__header" onClick={props.onClick}>
       { props.children }
+      <img className="dropdown__arrow" src="./expand_more_black_24dp.svg"/>
     </div>
   )
 }
@@ -21,6 +22,14 @@ export const DropDownItem: React.FC<IClickable & {label: string, value: string}>
   )
 }
 
+export const DropDownList: React.FunctionComponent<any> = (props) => {
+  return (
+    <div className="dropdown__list" style={props.style}>
+      {props.children}
+    </div>
+  )
+}
+
 export const Dropdown: React.FC<{callback: (...args: any[]) => any, label: string}> = (props) => {
   const [ selected, setSelected ] = useState<string>(props.label);
   const [ value, setValue ] = useState<string>();
@@ -28,7 +37,9 @@ export const Dropdown: React.FC<{callback: (...args: any[]) => any, label: strin
   const [ open, setOpen ] = useState(false);
 
   const children = Children.toArray(props.children);
-  
+
+  const parentRef = useRef<HTMLElement | any>();
+
   const toggle = () => {
     setOpen(!open)  
   }
@@ -41,15 +52,18 @@ export const Dropdown: React.FC<{callback: (...args: any[]) => any, label: strin
   }
 
   return (
-    <div className="dropdown">
+    <div className="dropdown" ref={parentRef}>
       <DropdownHeader onClick={toggle}>
-        <h3 className="dropdpwn__text">{ label }</h3>
+        <h3 className="dropdown__text">{ label }</h3>
       </DropdownHeader>
       { open &&
-        children.map((child: any) => {
+      
+       <DropDownList style={{width: parentRef.current.offsetWidth}}>
+        {children.map((child: any) => {
           const { value, label } = child.props;
           return <DropDownItem key={value} value={value} label={label} onClick={select(value, label)}>{child}</DropDownItem>
-        })
+        })}
+       </DropDownList> 
       }
     </div>
   )
