@@ -19,6 +19,7 @@ export const PostCard: React.FunctionComponent<IPost & {ref?: any}> = (props: IP
   }
  
   useEffect(() => {
+    console.log("on favorites changed")
     if (!onFavorites && onStorage) {
       setFavorites((old) => [...old.filter((post: IPost) => post.story_id !== props.story_id)])
       setOnStorage(false);
@@ -27,12 +28,13 @@ export const PostCard: React.FunctionComponent<IPost & {ref?: any}> = (props: IP
     if (onFavorites && !onStorage) {
       setFavorites((old) => [...old, props])
       setOnStorage(true);
+      return;
     }
-  }, [onFavorites])
+  }, [onFavorites, setOnFavorites])
 
   useEffect(()=> {
     if(onStorage) {
-      toggleFavorites();
+      setOnFavorites(true)
     }
   }, [onStorage])
 
@@ -63,7 +65,7 @@ export const PostCard: React.FunctionComponent<IPost & {ref?: any}> = (props: IP
   )
 }
 
-export const TopicBox: React.FunctionComponent<{value: string}> = (props) => {
+export const TopicBox: React.FunctionComponent<{value: string, label:string}> = (props) => {
   return (
     <div className="topic-box" {...props}>
       { props.children }
