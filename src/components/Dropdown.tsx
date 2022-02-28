@@ -1,5 +1,4 @@
 import React, { useState, Children, useEffect, useRef } from "react";
-import { useElementSize } from '../hooks';
 export const DropdownHeader: React.FC<{onClick: any}> = (props) => {
   return (
     <div className="dropdown__header" onClick={props.onClick}>

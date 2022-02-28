@@ -5,6 +5,7 @@ export interface Post {
   story_title: string;
   story_url: string;
   created_at: string;
+  story_id: string;
 }
 
 export const usePosts = (query: string = '') => {
@@ -19,7 +20,7 @@ export const usePosts = (query: string = '') => {
       author,
       story_title,
       story_url,
-      created_at
+      created_at,
     } = post;
 
     if (author && story_title && story_url && created_at) {
