@@ -103,6 +103,7 @@
 
 .post-card__content {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   text-decoration:none;
 }
@@ -224,6 +225,10 @@
 @media (min-width:768px) {
   .infinite-scroll-component {
     flex-direction: row;
+  }
+  .container: {
+    width: 100%;
+    margin: 150px;
   }
   .posts {
     display: flex;
