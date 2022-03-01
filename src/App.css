@@ -219,7 +219,7 @@
   margin: auto;
 }
 
-.infinite-scroll-component, .infinite-scroll-component__outerdiv {
+.infinite-scroll-component,.infinite-scroll-component__outerdiv {
   width: 100%;
 }
 

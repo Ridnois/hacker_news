@@ -44,8 +44,6 @@ export const usePosts = (query: string = '') => {
     fetch(`https://hn.algolia.com/api/v1/search_by_date?query=${query}&hitsPerPage=35&page=${page}`)
       .then(response => response.json())
       .then((posts) => {
-        console.log("foo")
-        console.log(posts)
         setPages(posts.nbPages)
         setPosts((current) => [
           ...current,
