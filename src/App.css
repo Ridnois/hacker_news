@@ -50,13 +50,11 @@
 .tab-selector__container a:nth-child(odd) .tab-selector__tab {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
-  border-right-color: var(--dropdown-border-color)!important;
 }
 
 .tab-selector__container a:nth-child(even) .tab-selector__tab {
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
-  border-left: none !important;
 }
 
 .tab-selector__tab:visited, .tab-selector__tab {
