@@ -15,13 +15,13 @@ export interface IPost {
 
 export const AllPage = () => {
   const [ selection, setSelection ] = useLocalStorage<string>("query_selection", "Select your news");
-  const [ query, setQuery ] = useState<string>();
-  const { posts, page, pages, load, clean } = usePosts(query);
+  const { posts, page, pages, load, clear } = usePosts(selection);
   const [ favorites, setFavorites] = useLocalStorage<{[key: string]: Partial<IPost>}[]>("favorites", []) 
   
   const handleDropdown = (value: string) => {
-    clean();
-    setQuery(value.toLowerCase());
+    if(selection != value) {
+      clear();
+    }
     setSelection(value);
   }
   
@@ -45,7 +45,7 @@ export const AllPage = () => {
   
   useEffect(() => {
     if(selection !== "Select your news") {
-      setQuery(selection)
+      setSelection(selection)
     }
   }, [selection])
 

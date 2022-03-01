@@ -117,6 +117,7 @@
 .post-card__story-title {
   font-family: Roboto;
   overflow: hidden;
+  padding-right: 8px;
   text-overflow: ellipsis;
   font-size: 14px;
   font-weight: 500;
@@ -218,7 +219,12 @@
   margin: auto;
 }
 
+.infinite-scroll-component, .infinite-scroll-component__outerdiv {
+  width: 100%;
+}
+
 .infinite-scroll-component {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
