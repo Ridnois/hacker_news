@@ -92,6 +92,7 @@
   padding: 0 0 0 26px;
   border-radius: 6px;
   border: solid 1px #979797;
+  max-width: -webkit-fill-available;
   background-color: #fff;
   flex: 0 0 calc(50% - 40px);
   display: flex;
@@ -115,6 +116,8 @@
 
 .post-card__story-title {
   font-family: Roboto;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
