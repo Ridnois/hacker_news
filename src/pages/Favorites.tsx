@@ -22,9 +22,9 @@ export const Favorites = () => {
       {
         favorites.map((f: PostRecord) => {
           const key = Object.keys(f)[0];
-          const fProps: any = f[key]
+          const props: any = f[key]
           return(
-            <PostCard key={key} onToggle={remove} {...fProps} onFavorites={true}/>
+            <PostCard key={key} onToggle={remove} {...props} onFavorites={true}/>
           )
         })
       }     
