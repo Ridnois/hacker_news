@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Dropdown, TopicBox } from '../components';
 import { usePosts, useLocalStorage } from "../hooks";
+import { keyOnElement } from "../utils"; 
 import { PostCard } from "../components";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -18,6 +19,14 @@ export const AllPage = () => {
   const { posts, page, pages, load, clear } = usePosts(selection);
   const [ favorites, setFavorites] = useLocalStorage<{[key: string]: Partial<IPost>}[]>("favorites", []) 
   
+  const onArr = (key: string, arr: any[]) => {
+    const e = arr.find(keyOnElement(key));
+    if (e) {
+      return true;
+    }
+    return false;
+  }
+
   const handleDropdown = (value: string) => {
     if(selection != value) {
       clear();
@@ -25,20 +34,15 @@ export const AllPage = () => {
     setSelection(value);
   }
   
-  const elementOnStorage = (props: any) => {
-    const item = favorites.find((element) => element[props.objectID])
-    if(item) {
-      return true;
-    }
-    return false;
-  }
-
-  const logToggle = (...args: any[]) => {
+  const toggle = (...args: any[]) => {
     const [ onFavorites, props ] = args;
-    const item = elementOnStorage(props) 
-    if(!item && onFavorites) {
+    const onStorage = onArr(props.objectID, favorites); 
+    
+    if(!onStorage && onFavorites) {
       setFavorites((favs) => [...favs, {[props.objectID]: props}])
-    } if(item && !onFavorites) {
+    }
+    
+    if(onStorage && !onFavorites) {
       setFavorites((favs) => favs.filter(fav => !fav[props.objectID]))
     }
   }
@@ -80,7 +84,7 @@ export const AllPage = () => {
         >
         {
           posts.map((post, index) => (
-            <PostCard onToggle={logToggle} onFavorites={elementOnStorage(post)} {...post} key={index}/> 
+            <PostCard onToggle={toggle} onFavorites={onArr(post.objectID, favorites)} {...post} key={index}/> 
           ))
         }
         </InfiniteScroll>
