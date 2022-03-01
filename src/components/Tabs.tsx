@@ -26,7 +26,6 @@ export interface ITabSelector {
 export const TabSelector: React.FunctionComponent = () => {
   const [ selected, setSelected ] = useState<string>("");
   useEffect(() => {
-    console.log(window.location.pathname)
     setSelected(window.location.pathname)
   }, [])
   
