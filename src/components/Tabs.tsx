@@ -20,9 +20,6 @@ export const Tab: React.FunctionComponent<ITab> = (props) => {
   )
 }
 
-export interface ITabSelector {
-  tabs: [ITab];
-}
 export const TabSelector: React.FunctionComponent = () => {
   const [ selected, setSelected ] = useState<string>("");
   useEffect(() => {
