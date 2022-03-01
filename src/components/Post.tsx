@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { timePassed } from '../utils';
 
 export interface IPost {
@@ -13,23 +13,23 @@ export interface IPost {
 
 export const PostCard: React.FunctionComponent<IPost> = (props: IPost) => {
   const [ onFavorites, setOnFavorites ] = useState(props.onFavorites);
-  const { onToggle } = props; 
-  
+  const prevProps = useRef(props);
+
   const toggleFavorites = () => {
     setOnFavorites((fav: any) => !fav);
   }
   
   useEffect(() => {
-    //console.log("Toggled ->", onFavorites)
-    onToggle(onFavorites, {...props})
-
-  }, [onFavorites, setOnFavorites])
+    props.onToggle(onFavorites, {...props});
+    prevProps.current = props;
+    // eslint-disable-next-line
+    },[onFavorites])
  
   return (
     <div className="post-card">
-      <a className="post-card__content" href={props.story_url} target={"_blank"}>
+      <a className="post-card__content" rel="noreferrer" href={props.story_url} target={"_blank"}>
         <div className="post-card__date date-checker">
-          <img src="./iconmonstr-time-2.svg" className="iconmonstr-time-2"/>
+          <img alt="" src="./iconmonstr-time-2.svg" className="iconmonstr-time-2"/>
           <p className="date-checker__legend">
             { timePassed(props.created_at) } ago by { props.author }
           </p> 
@@ -39,17 +39,10 @@ export const PostCard: React.FunctionComponent<IPost> = (props: IPost) => {
         </h3>
       </a>
       <div className="post-card__favorite" onClick={toggleFavorites}>
-        <img src={`./iconmonstr-favorite-${onFavorites ? '3' : '2'}.svg`} className="iconmonstr-favorite-2"/>
+        <img alt={ onFavorites ? `remove from favorites` : `add to favorites`} src={`./iconmonstr-favorite-${onFavorites ? '3' : '2'}.svg`} className="iconmonstr-favorite-2"/>
       </div>
     </div>
   )
 }
 
-export const TopicBox: React.FunctionComponent<{value: string, label:string}> = (props) => {
-  return (
-    <div className="topic-box" {...props}>
-      { props.children }
-    </div>
-  ) 
-}
 

@@ -1,4 +1,4 @@
 export { Header } from './Header';
-export { PostCard, TopicBox } from './Post';
+export { PostCard } from './Post';
 export { Tab, TabSelector } from './Tabs'; 
-export { Dropdown } from './Dropdown';
+export { Dropdown, TopicBox} from './Dropdown';

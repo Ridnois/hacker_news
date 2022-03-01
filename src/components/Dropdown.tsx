@@ -1,5 +1,12 @@
-import React, { useState, Children, useEffect, useRef } from "react";
-import { useLocalStorage } from "../hooks";
+import React, { useState, Children, useRef } from "react";
+
+export const TopicBox: React.FunctionComponent<{value: string, label:string}> = (props) => {
+  return (
+    <div className="topic-box" {...props}>
+      { props.children }
+    </div>
+  ) 
+}
 
 interface IClickable {
   onClick: (...args: any[]) => any;
@@ -9,7 +16,7 @@ export const DropdownHeader: React.FC<IClickable> = (props) => {
   return (
     <div className="dropdown__header" onClick={props.onClick}>
       { props.children }
-      <img className="dropdown__arrow" src="./expand_more_black_24dp.svg"/>
+      <img className="dropdown__arrow" alt="" src="./expand_more_black_24dp.svg"/>
     </div>
   )
 }
@@ -31,8 +38,7 @@ export const DropDownList: React.FunctionComponent<any> = (props) => {
 }
 
 export const Dropdown: React.FC<{callback: (...args: any[]) => any, label: string}> = (props) => {
-  const [ selected, setSelected ] = useState<string>(props.label);
-  const [ value, setValue ] = useState<string>();
+  const [ , setValue ] = useState<string>();
   const [ label, setLabel ] = useState<string>(props.label);
   const [ open, setOpen ] = useState(false);
 

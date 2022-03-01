@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Dropdown, TopicBox } from '../components';
 import { usePosts, useLocalStorage } from "../hooks";
 import { PostCard } from "../components";
@@ -16,7 +16,7 @@ export interface IPost {
 export const AllPage = () => {
   const [ selection, setSelection ] = useLocalStorage<string>("query_selection", "Select your news");
   const [ query, setQuery ] = useState<string>();
-  const { posts, page, pages, loading, error, load, clean } = usePosts(query);
+  const { posts, page, pages, load, clean } = usePosts(query);
   const [ favorites, setFavorites] = useLocalStorage<{[key: string]: Partial<IPost>}[]>("favorites", []) 
   
   const handleDropdown = (value: string) => {
@@ -47,26 +47,26 @@ export const AllPage = () => {
     if(selection !== "Select your news") {
       setQuery(selection)
     }
-  }, [])
+  }, [selection])
 
   return (
     <div className="container">
       <Dropdown label={selection} callback={handleDropdown}>
         <TopicBox label="Angular" value="angular">
           <div className="option-box">
-            <img className="option-box__image" src="./image-138.png" />
+            <img alt="Angular" className="option-box__image" src="./image-138.png" />
             <h3 className="dropdown__text">Angular</h3>
           </div>
         </TopicBox>
         <TopicBox label="Reactjs" value="reactjs">
           <div className="option-box">
-            <img className="option-box__image" src="./image-140.png" />
+            <img alt="ReactJS" className="option-box__image" src="./image-140.png" />
             <h3 className="dropdown__text">React</h3>
           </div>
         </TopicBox>
         <TopicBox label="Vuejs" value="vuejs">
           <div className="option-box">
-            <img className="option-box__image" src="./image-141.png" />
+            <img alt="Vuejs" className="option-box__image" src="./image-141.png" />
             <h3 className="dropdown__text">Vue</h3>
           </div>
         </TopicBox>

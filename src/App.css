@@ -227,8 +227,13 @@
   .infinite-scroll-component {
     flex-direction: row;
   }
-  
+  .posts {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+  } 
   .dropdown {
-    width: 240px;
+    width: 280px;
   }
 }

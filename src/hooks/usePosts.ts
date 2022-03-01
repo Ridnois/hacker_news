@@ -35,28 +35,32 @@ export const usePosts = (query: string = '') => {
     setPage(0);
   }
 
+  
   const load = () => {
     if (!query) return;
+    
     setLoading(true);
     fetch(`https://hn.algolia.com/api/v1/search_by_date?query=${query}&page=${page}`)
-    .then(response => response.json())
-    .then((posts) => {
-      setPages(posts.nbPages)
-      setPosts((current) => [
-        ...current,
-        ...posts.hits.filter((post: Partial<Post>) => suitablePost(post))
-      ]);
-      setPage(page => page + 1)
-      setLoading(false);
-    })
-    .catch(error => {
-      setLoading(false);
-      setError(error.message);
+      .then(response => response.json())
+      .then((posts) => {
+        setPages(posts.nbPages)
+        setPosts((current) => [
+          ...current,
+          ...posts.hits.filter((post: Partial<Post>) => suitablePost(post))
+        ]);
+      
+        setPage(page => page + 1)
+        setLoading(false);
+      })
+      .catch(error => {
+        setLoading(false);
+        setError(error.message);
     })
   }
-
+  
   useEffect(() => { 
     load();
+    // eslint-disable-next-line
   },[query]);
   
   return {
