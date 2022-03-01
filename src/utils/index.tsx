@@ -13,3 +13,7 @@ export const keyOnElement = <T extends {[key: string]: any}>(key: string | numbe
   };
   return false;
 }
+
+export const removeFromArr = (arr: any, key: any) => {
+  return [...arr.filter(!keyOnElement(key))]
+}
