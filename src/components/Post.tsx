@@ -26,6 +26,7 @@ const DateChecker: React.FC<Pick<IPostCard, "created_at" | "author">> = (props) 
 const PostCardContent: React.FC<IPostCard> = (props) => {
   return( 
     <a className="post-card__content" rel="noreferrer" href={props.story_url} target={"_blank"}>
+      {props.children}
       <h3 className="post-card__story-title">
         {props.story_title}
       </h3>
