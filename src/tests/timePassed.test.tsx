@@ -1,4 +1,4 @@
-import { timePassed } from './timePassed';
+import { timePassed } from '../utils';
 // If we use system date test will break itselves after certain time
 jest
   .useFakeTimers()

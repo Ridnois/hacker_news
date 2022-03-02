@@ -92,6 +92,7 @@
   padding: 0 0 0 26px;
   border-radius: 6px;
   border: solid 1px #979797;
+  max-width: -webkit-fill-available;
   background-color: #fff;
   flex: 0 0 calc(50% - 40px);
   display: flex;
@@ -103,6 +104,7 @@
 
 .post-card__content {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   text-decoration:none;
 }
@@ -114,6 +116,9 @@
 
 .post-card__story-title {
   font-family: Roboto;
+  overflow: hidden;
+  padding-right: 8px;
+  text-overflow: ellipsis;
   font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
@@ -215,23 +220,37 @@
 }
 
 .infinite-scroll-component {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: space-between;
 }
 
-@media (min-width:768px) {
-  .infinite-scroll-component {
-    flex-direction: row;
+@media (min-width: 768px) {
+  .container {
+    width: auto;
+    margin: 0 50px;
   }
+  .dropdown {
+    width: 280px;
+  }  
   .posts {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
-  } 
-  .dropdown {
-    width: 280px;
   }
+  
+  .infinite-scroll-component {
+    flex-direction: row;
+  }
+}
+@media (min-width:1024px) {
+  
+  .container {
+    width: auto;
+    margin: 0 150px;
+  }
+  
 }
