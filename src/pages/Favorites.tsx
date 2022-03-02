@@ -1,32 +1,24 @@
 import { useLocalStorage } from '../hooks';
 import { PostCard } from '../components';
-
-export interface IPost {
-  author: string;
-  story_title: string;
-  story_url: string;
-  created_at: string;
-  objectID: string;
-  onToggle: (...args: any[]) => any;
-}
+import { PostRecord } from '../types';
 
 export const Favorites = () => {
-  const [ favorites, setFavorites ] = useLocalStorage<IPost[]>("favorites", []);
+  const [ favorites, setFavorites ] = useLocalStorage<PostRecord[]>("favorites", []);
 
-  const remove = (value:boolean, g: any) => {
+  const remove = (value:boolean, post: any) => {
     if(!value) {
-      setFavorites((fav: any) => fav.filter((f: any) => !f[g.objectID]))
+      setFavorites((fav: PostRecord[]) => fav.filter((f: PostRecord) => !f[post.objectID]))
     }
   }
 
   return (
     <div className="container posts">
       {
-        favorites.map((f: any) => {
+        favorites.map((f: PostRecord) => {
           const key = Object.keys(f)[0];
-          const fProps: any = f[key]
+          const props: any = f[key]
           return(
-            <PostCard key={key} onToggle={remove} {...fProps} onFavorites={true}/>
+            <PostCard key={key} onToggle={remove} {...props} onFavorites={true}/>
           )
         })
       }     
