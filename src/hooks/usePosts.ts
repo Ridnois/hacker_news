@@ -29,7 +29,7 @@ export const usePosts = (query: string = '') => {
     return false;
   }
 
-  const clear = () => {
+  const clean = () => {
     setPosts([]);
     setPages(0);
     setPage(0);
@@ -40,8 +40,7 @@ export const usePosts = (query: string = '') => {
     if (!query) return;
     
     setLoading(true);
-    // Changed the default hitsPerPage value to increment the chances of get valid posts
-    fetch(`https://hn.algolia.com/api/v1/search_by_date?query=${query}&hitsPerPage=35&page=${page}`)
+    fetch(`https://hn.algolia.com/api/v1/search_by_date?query=${query}&page=${page}`)
       .then(response => response.json())
       .then((posts) => {
         setPages(posts.nbPages)
@@ -70,7 +69,7 @@ export const usePosts = (query: string = '') => {
     loading,
     error,
     load,
-    clear,
+    clean,
     page,
     setPage,
   }
