@@ -1,3 +1,9 @@
+# Hacker news 💻 🥷
+An amazing feed to get the most exciting IT stories 🚀
+
+
+Take a look to the website [here](https://infallible-golick-e34a86.netlify.app/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
