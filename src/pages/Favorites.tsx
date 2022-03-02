@@ -1,12 +1,6 @@
 import { useLocalStorage } from '../hooks';
 import { PostCard } from '../components';
-import { IPost } from '../types';
-
-interface WithID extends IPost {
-  objectID: string;
-}
-
-type PostRecord = Record<string, WithID>;
+import { PostRecord } from '../types';
 
 export const Favorites = () => {
   const [ favorites, setFavorites ] = useLocalStorage<PostRecord[]>("favorites", []);
