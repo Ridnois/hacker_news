@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { usePosts, useLocalStorage } from "../../hooks";
 import { onArr } from "../../utils"; 
 import { PostCard } from "../../components";
@@ -31,13 +30,6 @@ export const AllPage = () => {
       setFavorites((favs) => favs.filter(fav => !fav[props.objectID]))
     }
   }
-  
-  useEffect(() => {
-    if(selection !== "Select your news") {
-      setSelection(selection)
-    }
-    // eslint-disable-next-line
-  }, [selection])
 
   return (
     <div className="container">
