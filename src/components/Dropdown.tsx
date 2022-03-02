@@ -1,19 +1,6 @@
 import React, { useState, Children, useRef } from "react";
 
-interface Option {
-  label: string;
-  value: string;
-}
-
-interface IClickable {
-  onClick: (...args: any[]) => any;
-}
-
-interface WithCallback {
-  callback: (...args: any[]) => any,
-}
-
-export const TopicBox: React.FunctionComponent<Option> = (props) => {
+export const TopicBox: React.FunctionComponent<{value: string, label:string}> = (props) => {
   return (
     <div className="topic-box" {...props}>
       { props.children }
@@ -21,7 +8,9 @@ export const TopicBox: React.FunctionComponent<Option> = (props) => {
   ) 
 }
 
-type IDropdown = WithCallback & Pick<Option, "label"> 
+interface IClickable {
+  onClick: (...args: any[]) => any;
+}
 
 export const DropdownHeader: React.FC<IClickable> = (props) => {
   return (
@@ -32,7 +21,7 @@ export const DropdownHeader: React.FC<IClickable> = (props) => {
   )
 }
 
-export const DropDownItem: React.FC<IClickable & Option> = (props) => {
+export const DropDownItem: React.FC<IClickable & {label: string, value: string}> = (props) => {
   return (
     <div className="dropdown__item" onClick={props.onClick}>
       {props.children}
@@ -40,7 +29,7 @@ export const DropDownItem: React.FC<IClickable & Option> = (props) => {
   )
 }
 
-export const DropDownList: React.FunctionComponent<{style: any}> = (props) => {
+export const DropDownList: React.FunctionComponent<any> = (props) => {
   return (
     <div className="dropdown__list" style={props.style}>
       {props.children}
@@ -48,15 +37,13 @@ export const DropDownList: React.FunctionComponent<{style: any}> = (props) => {
   )
 }
 
-export const Dropdown: React.FC<IDropdown> = (props) => {
+export const Dropdown: React.FC<{callback: (...args: any[]) => any, label: string}> = (props) => {
   const [ , setValue ] = useState<string>();
-  const [ label, setLabel ] = useState(props.label);
+  const [ label, setLabel ] = useState<string>(props.label);
   const [ open, setOpen ] = useState(false);
 
   const children = Children.toArray(props.children);
-  
-  // Use parent width reference to provide width property on
-  // `position: absolute:` element.
+
   const parentRef = useRef<HTMLElement | any>();
 
   const toggle = () => {
@@ -71,16 +58,17 @@ export const Dropdown: React.FC<IDropdown> = (props) => {
   }
 
   return (
-    <div className="dropdown" ref={ parentRef }>
-      <DropdownHeader onClick={ toggle }>
+    <div className="dropdown" ref={parentRef}>
+      <DropdownHeader onClick={toggle}>
         <h3 className="dropdown__text">{ label }</h3>
       </DropdownHeader>
       { open &&
-        <DropDownList style={{ width: parentRef.current.offsetWidth }}>
-          {children.map((child: any) => {
-            const { value, label } = child.props;
-            return <DropDownItem key={ value } value={ value } label={ label } onClick={ select(value, label) }>{child}</DropDownItem>
-          })}
+      
+       <DropDownList style={{width: parentRef.current.offsetWidth}}>
+        {children.map((child: any) => {
+          const { value, label } = child.props;
+          return <DropDownItem key={value} value={value} label={label} onClick={select(value, label)}>{child}</DropDownItem>
+        })}
        </DropDownList> 
       }
     </div>
