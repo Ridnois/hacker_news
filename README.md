@@ -1,4 +1,4 @@
-# Hacker news 💻 🥷
+# Hacker news 💻 🗞️ 🥷
 An amazing feed to get the most exciting IT stories 🚀
 
 
