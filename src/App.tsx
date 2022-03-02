@@ -6,7 +6,6 @@ import './App.css';
 import { Header, TabSelector } from './components';
 import { AllPage, Favorites } from "./pages";
 
-
 function App() {
   return (
     <div className="App">
